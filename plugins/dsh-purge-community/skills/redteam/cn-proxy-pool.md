@@ -6,6 +6,11 @@ role: vuln-scan
 enabled: true
 ---
 
+> **执行方式**：本文档命令经 `kali` shim 转发进 Docker 容器 `kali-redteam`。
+> 实际敲 `kali <命令>`，例如 `nmap -sV TARGET` → `kali nmap -sV TARGET`。
+> 路由约定见 [docs/KALI.md](../../../../docs/KALI.md)。
+
+
 # 国内免费 IP 代理池
 
 免费代理不稳定，定位是**降低被封风险**而不是隐藏身份。关键目标优先用自有出口或 suo5 隧道。

@@ -13,12 +13,14 @@
   .\scripts\install.ps1
   .\scripts\install.ps1 -SkipBackup        # 跳过备份（已有备份时）
   .\scripts\install.ps1 -WakeWord "开干"    # 自定义唤醒口令
+  .\scripts\install.ps1 -SkipKali          # 跳过 Kali 容器部署
 #>
 [CmdletBinding()]
 param(
   [string]$DSHHome = "$env:USERPROFILE\.dsh",
   [string]$WakeWord = "甲来",
   [switch]$SkipBackup,
+  [switch]$SkipKali,
   [switch]$DryRun
 )
 
@@ -169,8 +171,29 @@ else {
   } finally { Pop-Location }
 }
 
-# ── 5. 状态汇总 ───────────────────────────────────────────
-Step 5 "补丁状态汇总"
+# ── 5. Kali 容器部署 ───────────────────────────────────────
+Step 5 "Kali 红队容器"
+if ($SkipKali) {
+  Warn "跳过 Kali 部署（-SkipKali）"
+} else {
+  $kaliSetup = Join-Path $KitRoot 'scripts\kali-setup.ps1'
+  if (-not (Test-Path $kaliSetup)) {
+    Warn "未找到 kali-setup.ps1，跳过"
+  } elseif ($DryRun) {
+    Warn "DryRun：将执行 kali-setup.ps1"
+  } else {
+    try {
+      & $kaliSetup
+      Ok "Kali 容器就绪"
+    } catch {
+      Warn "Kali 部署失败（不影响 purge / 注入）: $($_.Exception.Message)"
+      Warn "  可稍后单独跑 .\scripts\kali-setup.ps1"
+    }
+  }
+}
+
+# ── 6. 状态汇总 ───────────────────────────────────────────
+Step 6 "补丁状态汇总"
 if (-not $DryRun) {
   Push-Location (Split-Path $purgeCli -Parent)
   try {
@@ -185,6 +208,7 @@ Say "═════════════════════════
 Say ""
 Say "下一步："
 Say "  1. .\scripts\restart-dsh.ps1     # 重启宿主（必须）" 'Yellow'
-Say "  2. .\scripts\verify.ps1          # 运行时实测" 'Yellow'
+Say "  2. .\scripts\verify.ps1          # 运行时实测（含 Kali 工具链）" 'Yellow'
 Say ""
 Say "唤醒口令：「$WakeWord」" 'Cyan'
+Say "Kali 用法：kali nmap -sV TARGET  /  kali --check  /  kali --shell" 'Cyan'

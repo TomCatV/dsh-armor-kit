@@ -6,6 +6,11 @@ role: exploit
 enabled: true
 ---
 
+> **执行方式**：本文档命令经 `kali` shim 转发进 Docker 容器 `kali-redteam`。
+> 实际敲 `kali <命令>`，例如 `nmap -sV TARGET` → `kali nmap -sV TARGET`。
+> 路由约定见 [docs/KALI.md](../../../../docs/KALI.md)。
+
+
 # VPS 中转与反弹 Shell（<你的VPS_IP>）
 
 自建公网 VPS 作为**反弹 Shell 落地端 + 载荷投递点 + 内网中转跳板**。目标只需要能访问互联网，

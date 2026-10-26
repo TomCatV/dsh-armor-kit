@@ -6,6 +6,11 @@ role: internal
 enabled: true
 ---
 
+> **执行方式**：本文档命令经 `kali` shim 转发进 Docker 容器 `kali-redteam`。
+> 实际敲 `kali <命令>`，例如 `nmap -sV TARGET` → `kali nmap -sV TARGET`。
+> 路由约定见 [docs/KALI.md](../../../../docs/KALI.md)。
+
+
 # 内网横向与提权（Impacket 套件）
 
 拿到一台机器和内网可达性之后，**横向到更多主机**（`server-host`）和**找到域控/核心系统**（`central-system`）

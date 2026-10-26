@@ -6,6 +6,11 @@ role: plan
 enabled: true
 ---
 
+> **执行方式**：本文档命令经 `kali` shim 转发进 Docker 容器 `kali-redteam`。
+> 实际敲 `kali <命令>`，例如 `nmap -sV TARGET` → `kali nmap -sV TARGET`。
+> 路由约定见 [docs/KALI.md](../../../../docs/KALI.md)。
+
+
 # 首次使用引导（把环境一次配齐）
 
 **触发条件**（满足任一即执行本技能，不要跳过）：

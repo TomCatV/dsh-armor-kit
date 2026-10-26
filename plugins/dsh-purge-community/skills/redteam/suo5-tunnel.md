@@ -6,6 +6,11 @@ role: internal
 enabled: true
 ---
 
+> **执行方式**：本文档命令经 `kali` shim 转发进 Docker 容器 `kali-redteam`。
+> 实际敲 `kali <命令>`，例如 `nmap -sV TARGET` → `kali nmap -sV TARGET`。
+> 路由约定见 [docs/KALI.md](../../../../docs/KALI.md)。
+
+
 # suo5 内网隧道
 
 > **打进内网的标准通道只有这一条**：拿到 WebShell/RCE 后**必须**先用 suo5 建 socks5 隧道，

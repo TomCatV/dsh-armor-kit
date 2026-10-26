@@ -6,6 +6,11 @@ role: recon
 enabled: true
 ---
 
+> **执行方式**：本文档命令经 `kali` shim 转发进 Docker 容器 `kali-redteam`。
+> 实际敲 `kali <命令>`，例如 `nmap -sV TARGET` → `kali nmap -sV TARGET`。
+> 路由约定见 [docs/KALI.md](../../../../docs/KALI.md)。
+
+
 ## 关联规则
 - 域名解析 → `resolves` 边（domain → asset）
 - C 段归属 → `contains` 边（segment → asset）

@@ -6,6 +6,11 @@ role: internal
 enabled: true
 ---
 
+> **执行方式**：本文档命令经 `kali` shim 转发进 Docker 容器 `kali-redteam`。
+> 实际敲 `kali <命令>`，例如 `nmap -sV TARGET` → `kali nmap -sV TARGET`。
+> 路由约定见 [docs/KALI.md](../../../../docs/KALI.md)。
+
+
 # gogo（内网测绘与指纹引擎）
 
 `gogo` = **高并发、低噪声、高度可配置的测绘引擎**。链式反应出品，专为红队内网场景设计：

@@ -6,6 +6,11 @@ role: recon
 enabled: true
 ---
 
+> **执行方式**：本文档命令经 `kali` shim 转发进 Docker 容器 `kali-redteam`。
+> 实际敲 `kali <命令>`，例如 `nmap -sV TARGET` → `kali nmap -sV TARGET`。
+> 路由约定见 [docs/KALI.md](../../../../docs/KALI.md)。
+
+
 # 外部信息收集流水线（ProjectDiscovery）
 
 把"一个域名"变成"一份带标题、技术栈、端口的存活资产清单"，是信息收集阶段的标准动作。

@@ -6,6 +6,11 @@ role: vuln-scan
 enabled: true
 ---
 
+> **执行方式**：本文档命令经 `kali` shim 转发进 Docker 容器 `kali-redteam`。
+> 实际敲 `kali <命令>`，例如 `nmap -sV TARGET` → `kali nmap -sV TARGET`。
+> 路由约定见 [docs/KALI.md](../../../../docs/KALI.md)。
+
+
 # 目录与文件爆破（找入口的主力）
 
 **实战里大部分入口不是 CVE 打进去的，是目录爆破扫出来的**：后台 `/admin`、备份 `www.zip`、配置 `.env`、

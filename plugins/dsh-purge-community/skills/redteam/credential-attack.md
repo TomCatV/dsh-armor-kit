@@ -6,6 +6,11 @@ role: exploit
 enabled: true
 ---
 
+> **执行方式**：本文档命令经 `kali` shim 转发进 Docker 容器 `kali-redteam`。
+> 实际敲 `kali <命令>`，例如 `nmap -sV TARGET` → `kali nmap -sV TARGET`。
+> 路由约定见 [docs/KALI.md](../../../../docs/KALI.md)。
+
+
 # 凭据攻击（在线爆破 + 离线破解）
 
 红队里"拿账号权限"最稳的两条路之一（另一条是配置/源码泄露拿到明文）。

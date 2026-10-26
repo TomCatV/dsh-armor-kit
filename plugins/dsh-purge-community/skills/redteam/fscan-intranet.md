@@ -6,6 +6,11 @@ role: internal
 enabled: true
 ---
 
+> **执行方式**：本文档命令经 `kali` shim 转发进 Docker 容器 `kali-redteam`。
+> 实际敲 `kali <命令>`，例如 `nmap -sV TARGET` → `kali nmap -sV TARGET`。
+> 路由约定见 [docs/KALI.md](../../../../docs/KALI.md)。
+
+
 # fscan（内网综合扫描与弱口令/漏洞）
 
 `fscan` = **广度优先的内网普查**：一段 C 段丢进去，几分钟内给出存活主机、开放端口、服务指纹、Web 标题、

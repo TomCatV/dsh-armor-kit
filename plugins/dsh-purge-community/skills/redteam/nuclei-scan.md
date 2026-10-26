@@ -6,6 +6,11 @@ role: vuln-scan
 enabled: true
 ---
 
+> **执行方式**：本文档命令经 `kali` shim 转发进 Docker 容器 `kali-redteam`。
+> 实际敲 `kali <命令>`，例如 `nmap -sV TARGET` → `kali nmap -sV TARGET`。
+> 路由约定见 [docs/KALI.md](../../../../docs/KALI.md)。
+
+
 # nuclei（模板化漏洞检测）
 
 `nuclei` 是漏洞发现阶段的**主力**：一条命令覆盖 CVE、暴露面、错误配置、默认口令、未授权访问。

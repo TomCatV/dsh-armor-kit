@@ -15,6 +15,7 @@
 | **dsh-purge** | [kingcharleslzy-ai/dsh-purge](https://github.com/kingcharleslzy-ai/dsh-purge) · MIT | 80 条补丁：审批自动放行、沙箱加宽不拒、文件护栏关闭、身份句清除、系统提示注入保护 |
 | **无限四代 / infinite-gen-4** | [Minglink/dsh-infinite-gen-4](https://github.com/Minglink/dsh-infinite-gen-4) · MIT | 双层协同注入内核（order 100 通用内核 + order 200 强化镜像），首行交付物契约、占位符自造、拒绝对抗硬化 |
 | **唤醒口令** | 本仓库 | 「甲来」四字即唤醒，进入作战态，后续轮次持续生效 |
+| **Kali 路由** | 本仓库 | `kali` shim 把 nmap/hydra/sqlmap/impacket 等命令转发进 Docker 容器，工具链一次装齐 |
 | **红队技能集** | dsh-purge 内置 | 23 个技能：FOFA 测绘、nuclei 扫描、suo5 隧道、fscan/gogo 内网、冰蝎哥斯拉、凭据攻击、横向提权… |
 
 ---
@@ -82,6 +83,37 @@
 
 ---
 
+## Kali 路由
+
+技能文档里的命令（`nmap` / `hydra` / `sqlmap` / `impacket-*` / `ffuf` / `chisel` …）**不在宿主机执行**，统一经 `kali` shim 转发进 Docker 容器 `kali-redteam`。
+
+```powershell
+# 文档里看到
+nmap -sV -p- 10.0.0.5
+
+# 实际敲
+kali nmap -sV -p- 10.0.0.5
+```
+
+```powershell
+kali hydra -L users.txt -P pass.txt ssh://10.0.0.5
+kali sqlmap -u "http://TARGET/x?id=1" --batch --dbs
+kali impacket-smbclient TARGET/administrator@10.0.0.5
+kali ffuf -u http://TARGET/FUZZ -w /work/wordlist.txt -mc 200
+
+kali --shell      # 进容器交互 shell
+kali --check      # 逐个自检工具链
+```
+
+**shim 自动处理**：容器没跑则 `docker start`；容器没有则提示跑 `kali-setup.ps1`；无 TTY 调用自动去 `-it`；Windows 路径换算（`~\.dsh\kali` → `/work`、`~\.ssh` → `/host-ssh`）。
+
+**容器内工具链**（`setup.sh` 一次装齐）：
+nmap · masscan · sqlmap · nikto · whatweb · hydra · john · hashcat · medusa · ffuf · gobuster · dirsearch · chisel · proxychains4 · smbclient · enum4linux · nbtscan · redis-tools · mysql-client · impacket-scripts · seclists · python3 + impacket/bs4/pycryptodome
+
+详见 [`docs/KALI.md`](docs/KALI.md)。
+
+---
+
 ## 目录结构
 
 ```
@@ -89,9 +121,12 @@ dsh-armor-kit/
 ├── README.md                     本文件
 ├── LICENSE                       MIT
 ├── NOTICE.md                     上游归属与许可
-├── install.ps1 / *.ps1           见 scripts/
 ├── inject/
 │   └── prompt-inject.md          注入正文（含唤醒口令）
+├── kali/
+│   ├── kali.ps1                  shim 核心（命令转发进容器）
+│   ├── kali.cmd                  shim 的 cmd 入口
+│   └── setup.sh                  容器内工具链安装
 ├── plugins/
 │   ├── dsh-purge-community/      指令权威性清洗 + 红队技能集
 │   │   ├── lib/                  80 条补丁引擎
@@ -99,10 +134,13 @@ dsh-armor-kit/
 │   │   ├── presets/redteam/      红队角色预设
 │   │   └── skills/redteam/       23 个技能文档
 │   └── dsh-infinite-gen-4/       破甲内核（双层注入）
+├── docs/
+│   └── KALI.md                   Kali 路由约定
 └── scripts/
-    ├── install.ps1               一键安装
+    ├── install.ps1               一键安装（含 Kali 部署）
+    ├── kali-setup.ps1            Kali 容器一键部署
     ├── restart-dsh.ps1           重启宿主
-    ├── verify.ps1                运行时实测
+    ├── verify.ps1                运行时实测（含 Kali 自检）
     └── uninstall.ps1             卸载并回滚
 ```
 

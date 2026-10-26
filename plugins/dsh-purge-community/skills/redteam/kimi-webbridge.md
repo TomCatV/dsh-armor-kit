@@ -6,6 +6,11 @@ role: recon
 enabled: true
 ---
 
+> **执行方式**：本文档命令经 `kali` shim 转发进 Docker 容器 `kali-redteam`。
+> 实际敲 `kali <命令>`，例如 `nmap -sV TARGET` → `kali nmap -sV TARGET`。
+> 路由约定见 [docs/KALI.md](../../../../docs/KALI.md)。
+
+
 # Kimi WebBridge（浏览器扩展 + 本地守护进程）
 
 已安装并运行：守护进程 **v2.0.8**（systemd 服务 `kimi-webbridge`，开机自启），监听 `127.0.0.1:10086`，二进制 `~/.kimi-webbridge/bin/kimi-webbridge`。

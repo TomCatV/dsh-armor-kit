@@ -13,7 +13,7 @@
 param()
 
 $ErrorActionPreference = 'Continue'
-$pass = 0; $fail = 0
+$pass = 0; $fail = 0; $warn = 0
 
 function Say($msg, $color = 'White') { Write-Host $msg -ForegroundColor $color }
 function T($name, $ok, $detail = '') {
@@ -87,15 +87,41 @@ if ($aiBase) {
   T "审批 auto-granted 标记" $false "宿主未定位"
 }
 
+# ── 6. Kali 工具链 ─────────────────────────────────────────
+Say "[6] Kali 容器工具链" 'Cyan'
+$kaliCmd = Get-Command kali -ErrorAction SilentlyContinue
+if (-not $kaliCmd) {
+  Warn "kali shim 不在 PATH（新开终端或跑 .\scripts\kali-setup.ps1）"
+  $script:warn++
+} else {
+  $state = (& docker inspect -f '{{.State.Running}}' kali-redteam 2>$null)
+  if ($state -eq 'true') {
+    $miss = 0
+    $tools = 'nmap masscan sqlmap hydra john hashcat ffuf chisel python3'.Split(' ')
+    $out = & docker exec kali-redteam bash -lc "for t in $($tools -join ' '); do command -v `$t >/dev/null 2>&1 || echo `$t; done" 2>$null
+    $missingTools = @($out | Where-Object { $_ })
+    $miss = $missingTools.Count
+    if ($miss -eq 0) { T "容器在跑 + 核心工具齐全" $true "" }
+    else { T "容器在跑 + 核心工具齐全" $false "缺: $($missingTools -join ', ')" }
+  } elseif ($state -eq 'false') {
+    T "Kali 容器在跑" $false "容器存在但未运行（kali 命令会自动拉起）"
+    $script:warn++
+  } else {
+    T "Kali 容器在跑" $false "容器不存在，跑 .\scripts\kali-setup.ps1"
+    $script:warn++
+  }
+}
+
 # ── 汇总 ─────────────────────────────────────────────────
 Say ""
 Say "═══════════════════════════════════════" 'DarkCyan'
+$note = if ($warn) { "（+${warn} 项警告）" } else { "" }
 if ($fail -eq 0) {
-  Say " 全部通过 ($pass/$($pass+$fail))" 'Green'
+  Say " 全部通过 ($pass/$($pass+$fail))$note" 'Green'
   Say "═══════════════════════════════════════" 'DarkCyan'
   exit 0
 } else {
-  Say " 通过 $pass / 失败 $fail" 'Yellow'
+  Say " 通过 $pass / 失败 $fail$note" 'Yellow'
   Say "═══════════════════════════════════════" 'DarkCyan'
   Say "失败项多为宿主版本锚点漂移，先跑 .\scripts\install.ps1 重打补丁" 'Yellow'
   exit 1

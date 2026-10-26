@@ -11,6 +11,7 @@
 - **版权**: Copyright (c) 2026 小杨
 - **位置**: `plugins/dsh-purge-community/`
 - **内容**: 80 条宿主清洗补丁引擎（`lib/*.js`）、红队 MCP 工具实现（`lib/redteam/`）、红队角色预设（`presets/redteam/`）、红队技能文档（`skills/redteam/`）
+- **改动**: `skills/redteam/*.md` 每份在 frontmatter 之后追加了 3 行「Kali 路由」提示（指向 `docs/KALI.md`），正文未改。MIT 许可允许修改，原 LICENSE 保留。
 
 ## 2. dsh-infinite-gen-4（无限四代）
 
@@ -24,9 +25,11 @@
 
 ## 本仓库原创部分
 
+- `kali/kali.ps1`、`kali/kali.cmd` —— Kali 容器路由 shim
+- `kali/setup.sh` —— 容器内工具链安装脚本
 - `inject/prompt-inject.md` 的唤醒口令块（「甲来」）
-- `scripts/*.ps1`（安装 / 重启 / 验证 / 卸载）
-- `README.md`、`docs/`
+- `scripts/*.ps1`（install / kali-setup / restart-dsh / verify / uninstall）
+- `docs/KALI.md`、`README.md`、`NOTICE.md`
 
 以上按 MIT 许可发布。
 
