@@ -87,6 +87,15 @@ if (-not $exists) {
   if ($LASTEXITCODE -ne 0) { Bad "容器创建失败"; exit 1 }
   Ok "容器已创建并后台常驻"
 } else {
+  # 挂载一致性检测：老容器可能挂的是别的路径
+  $curMount = & docker inspect $Container --format '{{range .Mounts}}{{if eq .Destination "/work"}}{{.Source}}{{end}}{{end}}' 2>$null
+  if ($curMount -and ($curMount -replace '/','\' -ne $WorkDir)) {
+    Warn "容器 /work 挂载与预期不一致"
+    Say "      当前: $curMount" 'Gray'
+    Say "      预期: $WorkDir" 'Gray'
+    Say "      → 输出会落到「当前」路径。要改用预期路径请跑 -Force 重建" 'Gray'
+    $script:WorkDir = $curMount
+  }
   Ok "容器已存在"
   & docker start $Container | Out-Null
 }

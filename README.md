@@ -28,6 +28,15 @@
 - **身份句清空**：`You are an AI agent powered by DeepSeek Harness` 从 runtime 消失
 - **口令唤醒**：说「甲来」即进入状态
 
+### 验证
+
+```powershell
+.\scripts\verify.ps1      # 运行时实测 + Kali 工具链自检
+.\scripts\smoke.ps1       # 全链路冒烟（自带漏洞靶，不需真目标）
+```
+
+`smoke.ps1` 起一个极简漏洞靶，跑通 `kali nmap` → `whatweb` → `ffuf` → `sqlmap` → `/work` 落盘，逐项判 PASS/FAIL。用它验证链路真的通，不需要授权目标。
+
 ---
 
 ## 快速开始
