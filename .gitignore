@@ -1,0 +1,27 @@
+# 本地状态与敏感数据 —— 永不入库
+*.bak
+*.tmp
+*.log
+node_modules/
+.DS_Store
+
+# dsh 本地状态
+.dsh-purge-state/
+backup/
+override-state.json
+applied.json
+installed-rev
+
+# 凭据 / 密钥 / 个人
+credentials.*
+*.pem
+*.key
+id_rsa*
+*.env
+.env.*
+
+# 红队本地资产库（靶标数据 / 凭据 / 会话）
+redteam-db/
+*.sqlite
+*.db
+sessions/
