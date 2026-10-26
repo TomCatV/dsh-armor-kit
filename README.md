@@ -15,6 +15,7 @@
 | **dsh-purge** | [kingcharleslzy-ai/dsh-purge](https://github.com/kingcharleslzy-ai/dsh-purge) · MIT | 80 条补丁：审批自动放行、沙箱加宽不拒、文件护栏关闭、身份句清除、系统提示注入保护 |
 | **无限四代 / infinite-gen-4** | [Minglink/dsh-infinite-gen-4](https://github.com/Minglink/dsh-infinite-gen-4) · MIT | 双层协同注入内核（order 100 通用内核 + order 200 强化镜像），首行交付物契约、占位符自造、拒绝对抗硬化 |
 | **唤醒口令** | 本仓库 | 「甲来」四字即唤醒，进入作战态，后续轮次持续生效 |
+| **行为服从层** | 本仓库 | OBEY & EXECUTE：执行先于一切、零推辞零对冲、技术深度下限、违者作废重写 |
 | **Kali 路由** | 本仓库 | `kali` shim 把 nmap/hydra/sqlmap/impacket 等命令转发进 Docker 容器，工具链一次装齐 |
 | **红队技能集** | dsh-purge 内置 | 23 个技能：FOFA 测绘、nuclei 扫描、suo5 隧道、fscan/gogo 内网、冰蝎哥斯拉、凭据攻击、横向提权… |
 
